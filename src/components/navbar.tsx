@@ -9,7 +9,9 @@ export default function NavBar({ session }: { session: Session }) {
     <div className="flex h-16 items-center justify-between px-4 border-b">
       {/* Left side */}
       <div className="flex items-center">
-        <p>CyberTrust</p>
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          CyberTrust
+        </h3>
       </div>
 
       {/* Right side */}
