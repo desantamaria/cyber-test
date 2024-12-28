@@ -11,7 +11,7 @@ export default function ProjectsSelect({ session }: { session: Session }) {
     (typeof projectsTable.$inferSelect)[] | []
   >([]);
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchProjects = async () => {
       try {
         const projectsData = await listProjects(session.user?.id!);
         console.log(session.user?.id);
@@ -21,14 +21,10 @@ export default function ProjectsSelect({ session }: { session: Session }) {
         console.error("Error fetching images:", error);
       }
     };
-    fetchImages();
+    fetchProjects();
   }, []);
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-3 justify-center items-center">
-      <Button asChild>
-        <a href="/api/auth/signout">Sign out</a>
-      </Button>
-    </div>
+    <div className="w-screen h-screen flex flex-col gap-3 justify-center items-center"></div>
   );
 }
