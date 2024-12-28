@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
-import ProjectsSelect from "../components/projects-select";
+import ProjectsPage from "./_components/projects-page";
 
 export default async function Home() {
   const session = await auth();
@@ -17,7 +17,7 @@ export default async function Home() {
             </Button>
           </div>
         ) : (
-          <ProjectsSelect session={session} />
+          <ProjectsPage session={session} />
         )}
       </main>
     </div>

@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import { auth } from "@/auth";
 import NavBar from "@/components/navbar";
 
