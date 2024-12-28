@@ -1,5 +1,7 @@
 import {
+  AnyPgColumn,
   integer,
+  PgArray,
   pgTable,
   serial,
   text,
@@ -7,11 +9,13 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+// Authentication Tables
+
 export const usersTable = pgTable("users", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  email: varchar({ length: 255 }).notNull().unique(),
-  emailVerified: timestamp("emailVerified"),
+  id: serial().primaryKey(),
+  name: varchar({ length: 255 }),
+  email: varchar({ length: 255 }).unique(),
+  emailVerified: timestamp(),
   image: text(),
 });
 
@@ -37,8 +41,56 @@ export const sessionsTable = pgTable("sessions", {
   expires: timestamp().notNull(),
 });
 
-export const verificationTokensTable = pgTable("verification_tokens", {
+export const verificationTokenTable = pgTable("verification_token", {
   identifier: text(),
   token: text(),
   expires: timestamp().notNull(),
+});
+
+// App Tables
+export const projectsTable = pgTable("projects", {
+  id: serial().primaryKey(),
+  name: varchar({ length: 255 }).notNull(),
+  updated: timestamp().defaultNow().notNull(),
+  creator: integer().references((): AnyPgColumn => usersTable.id),
+});
+
+// Many to many with testCases
+export const experimentsTable = pgTable("experiments", {
+  id: serial().primaryKey(),
+  prompts: integer()
+    .array()
+    .references((): AnyPgColumn => promptsTable.id),
+});
+
+export const promptsTable = pgTable("prompts", {
+  id: serial().primaryKey(),
+  modelName: text(),
+  messages: text().array(),
+});
+
+export const testCaseTable = pgTable("test_case", {
+  id: serial().primaryKey(),
+  userMessage: text(),
+  expectedOutput: text(),
+  grader: integer().references((): AnyPgColumn => gradersTable.id),
+});
+
+export const experimentsTestCasesTable = pgTable("experiments_test_cases", {
+  experiment: integer()
+    .references((): AnyPgColumn => experimentsTable.id)
+    .primaryKey(),
+  testCase: integer()
+    .references((): AnyPgColumn => testCaseTable.id)
+    .primaryKey(),
+});
+
+export const gradersTable = pgTable("graders", {
+  id: serial().primaryKey(),
+});
+
+export const experimentRunsTable = pgTable("experiment_runs", {
+  id: serial().primaryKey(),
+  percentage: integer(), // scores and results for each test case
+  aggregateScore: integer(),
 });
