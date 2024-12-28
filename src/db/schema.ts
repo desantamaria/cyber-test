@@ -1,7 +1,6 @@
 import {
   AnyPgColumn,
   integer,
-  PgArray,
   pgTable,
   serial,
   text,
@@ -58,15 +57,21 @@ export const projectsTable = pgTable("projects", {
 // Many to many with testCases
 export const experimentsTable = pgTable("experiments", {
   id: serial().primaryKey(),
-  prompts: integer()
-    .array()
-    .references((): AnyPgColumn => promptsTable.id),
 });
 
 export const promptsTable = pgTable("prompts", {
   id: serial().primaryKey(),
   modelName: text(),
   messages: text().array(),
+});
+
+export const experimentsPromptsTable = pgTable("experiments_prompts", {
+  experiment: integer()
+    .references((): AnyPgColumn => experimentsTable.id)
+    .primaryKey(),
+  testCase: integer()
+    .references((): AnyPgColumn => promptsTable.id)
+    .primaryKey(),
 });
 
 export const testCaseTable = pgTable("test_case", {
