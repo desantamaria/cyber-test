@@ -70,7 +70,7 @@ export const experimentsPromptsTable = pgTable("experiments_prompts", {
     .references((): AnyPgColumn => experimentsTable.id)
     .primaryKey(),
   testCase: integer()
-    .references((): AnyPgColumn => promptsTable.id)
+    .references((): AnyPgColumn => testCaseTable.id)
     .primaryKey(),
 });
 
