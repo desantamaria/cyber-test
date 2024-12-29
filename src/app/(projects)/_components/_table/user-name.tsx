@@ -22,11 +22,8 @@ export function UserName({ id }: { id: number }) {
         console.error("Error fetching user:", error);
         setViewerInfo(null);
       } finally {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-
         setLoading(false);
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     };
 
     fetchUser();
@@ -34,6 +31,5 @@ export function UserName({ id }: { id: number }) {
   if (loading) {
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
   return <p>{viewerInfo?.name ?? "User not found"}</p>;
 }

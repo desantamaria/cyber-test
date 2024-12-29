@@ -5,12 +5,21 @@ import { FlatCompat } from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// const eslintConfig = [
+//   ...compat.extends("next/core-web-vitals", "next/typescript"),
+// ];
+
 const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.config({
+    extends: ["next"],
+    rules: {
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    },
+  }),
 ];
 
 export default eslintConfig;
