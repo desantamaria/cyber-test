@@ -45,14 +45,12 @@ export default function ProjectsPage({ session }: { session: Session }) {
     const fetchProjects = async () => {
       try {
         const projectsData = await listProjects(session.user?.id!);
-        console.log(session.user?.id);
-        console.log(projectsData);
         setProjects(projectsData);
 
         const fetchedData = await getData();
         setData(fetchedData);
       } catch (error) {
-        console.error("Error fetching images:", error);
+        console.error("Error fetching projects:", error);
       }
     };
     fetchProjects();
@@ -69,7 +67,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
           Project
         </Button>
       </div>
-      <DataTable columns={columns} data={projects} />
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }

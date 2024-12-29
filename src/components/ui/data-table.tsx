@@ -1,5 +1,4 @@
 "use client";
-
 import {
   ColumnDef,
   flexRender,
@@ -9,7 +8,6 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -20,7 +18,11 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./button";
 import React from "react";
+import { useRouter } from "next/navigation";
 
+function hasId(obj: any): obj is { id: string | number } {
+  return obj && typeof obj === "object" && "id" in obj;
+}
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -31,6 +33,8 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const router = useRouter();
+
   const table = useReactTable({
     data,
     columns,
@@ -42,6 +46,11 @@ export function DataTable<TData, TValue>({
       sorting,
     },
   });
+  const handleRowClick = (rowData: TData) => {
+    if (hasId(rowData)) {
+      router.push(`./p/${rowData.id}`);
+    }
+  };
 
   return (
     <div>
@@ -71,6 +80,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => handleRowClick(row.original)}
+                  className="hover:cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

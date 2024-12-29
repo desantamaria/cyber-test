@@ -27,7 +27,7 @@ export function UserButton({ session }: { session: Session }) {
         )) as typeof usersTable.$inferSelect;
         setViewerInfo(userData);
       } catch (error) {
-        console.error("Error fetching images:", error);
+        console.error("Error fetching projects:", error);
       }
     };
     fetchProjects();
