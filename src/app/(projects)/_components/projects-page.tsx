@@ -34,9 +34,9 @@ async function getData(): Promise<(typeof projectsTable.$inferSelect)[]> {
 }
 
 export default function ProjectsPage({ session }: { session: Session }) {
-  const [projects, setProjects] = useState<
-    (typeof projectsTable.$inferSelect)[] | []
-  >([]);
+  //   const [projects, setProjects] = useState<
+  //     (typeof projectsTable.$inferSelect)[] | []
+  //   >([]);
 
   const [data, setData] = useState<(typeof projectsTable.$inferSelect)[] | []>(
     []
@@ -45,7 +45,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
     const fetchProjects = async () => {
       try {
         const projectsData = await listProjects(session.user?.id!);
-        setProjects(projectsData);
+        // setProjects(projectsData);
 
         const fetchedData = await getData();
         setData(fetchedData);
