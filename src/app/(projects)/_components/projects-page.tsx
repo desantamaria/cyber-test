@@ -1,6 +1,6 @@
 "use client";
 
-import { listProjects } from "@/app/actions/queries/project";
+// import { listProjects } from "@/app/actions/queries/project";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { projectsTable } from "@/db/schema";
@@ -33,7 +33,8 @@ async function getData(): Promise<(typeof projectsTable.$inferSelect)[]> {
   ];
 }
 
-export default function ProjectsPage({ session }: { session: Session }) {
+// export default function ProjectsPage({ session }: { session: Session }) {
+export default function ProjectsPage() {
   //   const [projects, setProjects] = useState<
   //     (typeof projectsTable.$inferSelect)[] | []
   //   >([]);

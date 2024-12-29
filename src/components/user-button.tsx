@@ -32,7 +32,7 @@ export function UserButton({ session }: { session: Session }) {
       }
     };
     fetchProjects();
-  }, []);
+  }, [session.user?.id]);
 
   return (
     <DropdownMenu>
