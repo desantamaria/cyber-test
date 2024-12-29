@@ -26,7 +26,7 @@ export default function NavBar({
 
       {projectId ? (
         <>
-          <ProjectNav></ProjectNav>
+          <ProjectNav id={projectId}></ProjectNav>
         </>
       ) : (
         <></>

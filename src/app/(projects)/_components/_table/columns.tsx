@@ -1,6 +1,5 @@
 "use client";
 
-import { getUser } from "@/app/actions/queries/user";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

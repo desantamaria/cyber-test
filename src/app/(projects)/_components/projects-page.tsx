@@ -1,13 +1,13 @@
 "use client";
 
 import { listProjects } from "@/app/actions/queries/project";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
 import { projectsTable } from "@/db/schema";
+import { PlusIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { columns } from "./_table/columns";
-import { DataTable } from "@/components/ui/data-table";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
 
 async function getData(): Promise<(typeof projectsTable.$inferSelect)[]> {
   // Placeholder Data
