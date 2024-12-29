@@ -22,8 +22,11 @@ export function UserName({ id }: { id: number }) {
         console.error("Error fetching user:", error);
         setViewerInfo(null);
       } finally {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+
         setLoading(false);
       }
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     };
 
     fetchUser();
