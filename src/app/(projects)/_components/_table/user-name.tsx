@@ -30,7 +30,7 @@ export function UserName({ id }: { id: number }) {
   return (
     <>
       {!loading ? (
-        <>{viewerInfo?.name}</>
+        <>{viewerInfo ? viewerInfo.name : "User not found"}</>
       ) : (
         <>
           <Skeleton className="w-[100px] h-[20px] rounded-full" />

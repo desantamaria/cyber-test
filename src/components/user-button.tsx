@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Link from "next/link";
 
 export function UserButton({ session }: { session: Session }) {
   const [viewerInfo, setViewerInfo] = useState<
@@ -72,11 +73,11 @@ export function UserButton({ session }: { session: Session }) {
           </DropdownMenuItem>
         </DropdownMenuGroup> */}
         <DropdownMenuSeparator />
-        <a href="/api/auth/signout">
+        <Link href="/api/auth/signout">
           <DropdownMenuItem className="hover:cursor-pointer">
             Sign out
           </DropdownMenuItem>
-        </a>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

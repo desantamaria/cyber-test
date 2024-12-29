@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import ProjectsPage from "./_components/projects-page";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
@@ -13,7 +14,7 @@ export default async function Home() {
               Cyber Trust
             </h1>
             <Button asChild>
-              <a href="/api/auth/signin">Sign in</a>
+              <Link href="/api/auth/signin">Sign in</Link>
             </Button>
           </div>
         ) : (

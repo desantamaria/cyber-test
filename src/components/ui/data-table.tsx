@@ -20,6 +20,7 @@ import { Button } from "./button";
 import React from "react";
 import { useRouter } from "next/navigation";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function hasId(obj: any): obj is { id: string | number } {
   return obj && typeof obj === "object" && "id" in obj;
 }

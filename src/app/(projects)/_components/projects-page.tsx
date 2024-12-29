@@ -44,7 +44,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const projectsData = await listProjects(session.user?.id!);
+        // const projectsData = await listProjects(session.user?.id!);
         // setProjects(projectsData);
 
         const fetchedData = await getData();

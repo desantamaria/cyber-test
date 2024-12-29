@@ -36,7 +36,7 @@ export default function NavBar({
       <div className="flex items-center space-x-4">
         {!session ? (
           <Button asChild>
-            <a href="/api/auth/signin">Sign in</a>
+            <Link href="/api/auth/signin">Sign in</Link>
           </Button>
         ) : (
           <UserButton session={session} />
