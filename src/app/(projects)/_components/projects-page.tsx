@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { projectsTable } from "@/db/schema";
 import { PlusIcon } from "lucide-react";
-import { Session } from "next-auth";
+// import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { columns } from "./_table/columns";
 

@@ -14,7 +14,6 @@ export function UserName({ id }: { id: number }) {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         const userData = (await getUser(
           id.toString()
         )) as typeof usersTable.$inferSelect;
@@ -29,10 +28,9 @@ export function UserName({ id }: { id: number }) {
 
     fetchUser();
   }, [id]);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
   if (loading) {
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-  return viewerInfo?.name ?? "User not found";
+  return <p>{viewerInfo?.name ?? "User not found"}</p>;
 }
