@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { projectsTable } from "@/db/schema";
 import { use, useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CalendarIcon, UserIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function ProjectPage({
   params,
@@ -32,47 +36,70 @@ export default function ProjectPage({
       }
     };
     fetchProject();
-  }, [params]);
+  }, [id]);
 
   return (
-    <div className="w-full h-full py-10 flex flex-col gap-4 items-center bg-gray-100">
-      <div className="w-[40vw] h-auto p-5 bg-white shadow-md rounded-lg">
-        <h3 className="scroll-m-20 text-3xl font-bold tracking-tight mb-4">
-          Project:{" "}
-          <span style={{ color: "gray" }} className="font-normal">
-            {id}
-          </span>
-        </h3>
-        {!loading ? (
-          <>
-            <p className="text-lg font-medium">
-              Name: <span className="font-light">{project?.name}</span>
-            </p>
-            <p className="text-lg font-medium">
-              Updated At:
-              <span className="font-light">
-                {project?.updated.toISOString()}
-              </span>
-            </p>
-            <p className="text-lg font-medium">
-              Created By: <span className="font-light">{project?.creator}</span>
-            </p>
-          </>
-        ) : (
-          <>
-            <Skeleton className="w-[100px] h-[20px] rounded-full mb-2" />
-            <Skeleton className="w-[50px] h-[20px] rounded-full mb-2" />
-            <Skeleton className="w-[70px] h-[20px] rounded-full mb-2" />
-          </>
-        )}
-        <div className="flex flex-wrap py-10 gap-2">
-          <Button variant="outline">View Experiments</Button>
-          <Button variant="outline">View Test Cases</Button>
-          <Button variant="outline">View Prompts</Button>
-          <Button variant="outline">View Graders</Button>
-          <Button variant="secondary">View Experiment Runs</Button>
-        </div>
-      </div>
+    <div className="container mx-auto py-10">
+      <Card className="w-full max-w-3xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold">
+            Project: <Badge variant="secondary">id: {id}</Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {!loading ? (
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <h3 className="text-lg font-semibold">Name:</h3>
+                <p className="text-lg">{project?.name}</p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CalendarIcon className="h-5 w-5 text-muted-foreground" />
+                <h3 className="text-sm font-semibold">Updated At:</h3>
+                <p className="text-sm text-muted-foreground">
+                  {project?.updated.toLocaleString()}
+                </p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <UserIcon className="h-5 w-5 text-muted-foreground" />
+                <h3 className="text-sm font-semibold">Created By:</h3>
+                <p className="text-sm text-muted-foreground">
+                  {project?.creator}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Skeleton className="h-6 w-2/3" />
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-4 w-1/3" />
+            </div>
+          )}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8">
+            <Button variant="outline" className="w-full" asChild>
+              <Link href={`/p/${id}/experiments`}>View Experiments</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link href={`/p/${id}/test-cases`}>View Test Cases</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link href={`/p/${id}/prompts`}>View Prompts</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link href={`/p/${id}/graders`}>View Graders</Link>
+            </Button>
+            <Button
+              variant="secondary"
+              className="w-full sm:col-span-2"
+              asChild
+            >
+              <Link href={`/p/${id}/experiment-runs`}>
+                View Experiment Runs
+              </Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
