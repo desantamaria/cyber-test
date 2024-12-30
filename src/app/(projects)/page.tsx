@@ -18,7 +18,7 @@ export default async function Home() {
             </Button>
           </div>
         ) : (
-          <ProjectsPage />
+          <ProjectsPage session={session} />
         )}
       </main>
     </div>
