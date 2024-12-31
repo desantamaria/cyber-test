@@ -37,49 +37,54 @@ CREATE TABLE IF NOT EXISTS verification_token (
 
 
 /* App Tables */
-
-CREATE TABLE IF NOT EXISTS projects (
+CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  updated TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   creator INTEGER REFERENCES users(id)
 );
 
-CREATE TABLE IF NOT EXISTS experiments (
+CREATE TABLE experiments (
   id SERIAL PRIMARY KEY
+  name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS prompts (
+CREATE TABLE test_case (
   id SERIAL PRIMARY KEY,
-  "modelName" TEXT,
-  messages TEXT[]
-);
-
-CREATE TABLE IF NOT EXISTS experiments_prompts (
-  experiment INTEGER REFERENCES experiments(id),
-  "testCase" INTEGER REFERENCES prompts(id),
-  PRIMARY KEY (experiment, "testCase")
-);
-
-CREATE TABLE IF NOT EXISTS graders (
-  id SERIAL PRIMARY KEY
-);
-
-CREATE TABLE IF NOT EXISTS test_case (
-  id SERIAL PRIMARY KEY,
-  "userMessage" TEXT,
-  "expectedOutput" TEXT,
+  userMessage TEXT,
+  expectedOutput TEXT,
   grader INTEGER REFERENCES graders(id)
 );
 
-CREATE TABLE IF NOT EXISTS experiments_test_cases (
+CREATE TABLE experiments_test_cases (
   experiment INTEGER REFERENCES experiments(id),
-  "testCase" INTEGER REFERENCES test_case(id),
-  PRIMARY KEY (experiment, "testCase")
+  testCase INTEGER REFERENCES test_case(id),
+  PRIMARY KEY (experiment, testCase)
 );
 
-CREATE TABLE IF NOT EXISTS experiment_runs (
+CREATE TABLE prompts (
   id SERIAL PRIMARY KEY,
+  modelName TEXT,
+  prompt TEXT,
+  message TEXT
+);
+
+CREATE TABLE experiments_prompts (
+  experiment INTEGER REFERENCES experiments(id),
+  prompt INTEGER REFERENCES prompts(id),
+  PRIMARY KEY (experiment, prompt)
+);
+
+CREATE TABLE graders (
+  id SERIAL PRIMARY KEY,
+  name TEXT,
+  "modelName" TEXT,
+  prompt TEXT
+);
+
+CREATE TABLE experiment_runs (
+  id SERIAL PRIMARY KEY,
+  experimentFrom INTEGER REFERENCES experiments(id),
   percentage INTEGER,
-  "aggregateScore" INTEGER
+  aggregateScore INTEGER
 );

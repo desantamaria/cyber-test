@@ -16,13 +16,14 @@ export async function listProjects(userId: number) {
   return result;
 }
 
-export async function createProject(projectInfo: {
-  projectInfo: typeof projectsTable.$inferInsert;
-}) {
+export async function createProject(
+  projectInfo: typeof projectsTable.$inferInsert
+) {
   const result = await db
     .insert(schema.projectsTable)
-    .values(projectInfo.projectInfo);
-  return result;
+    .values(projectInfo)
+    .returning();
+  return result[0].id;
 }
 
 export async function getProjectById(projectId: number) {

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { auth } from "@/auth";
 import NavBar from "@/components/navbar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Cyber Trust",
@@ -26,6 +27,7 @@ export default async function RootLayout({
         >
           <NavBar session={session!} />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

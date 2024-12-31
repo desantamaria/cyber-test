@@ -1,13 +1,12 @@
 "use client";
 
 import { listProjects } from "@/app/actions/queries/project";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { projectsTable } from "@/db/schema";
-import { PlusIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { columns } from "./_table/columns";
+import CreateProject from "./create-project";
 
 export default function ProjectsPage({ session }: { session: Session }) {
   const [projects, setProjects] = useState<
@@ -32,10 +31,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Projects
         </h3>
-        <Button size="sm">
-          <PlusIcon />
-          Project
-        </Button>
+        <CreateProject session={session} />
       </div>
       <DataTable columns={columns} data={projects} />
     </div>

@@ -54,24 +54,9 @@ export const projectsTable = pgTable("projects", {
   creator: integer().references((): AnyPgColumn => usersTable.id),
 });
 
-// Many to many with testCases
 export const experimentsTable = pgTable("experiments", {
   id: serial().primaryKey(),
-});
-
-export const promptsTable = pgTable("prompts", {
-  id: serial().primaryKey(),
-  modelName: text(),
-  messages: text().array(),
-});
-
-export const experimentsPromptsTable = pgTable("experiments_prompts", {
-  experiment: integer()
-    .references((): AnyPgColumn => experimentsTable.id)
-    .primaryKey(),
-  testCase: integer()
-    .references((): AnyPgColumn => testCaseTable.id)
-    .primaryKey(),
+  name: text(),
 });
 
 export const testCaseTable = pgTable("test_case", {
@@ -81,6 +66,7 @@ export const testCaseTable = pgTable("test_case", {
   grader: integer().references((): AnyPgColumn => gradersTable.id),
 });
 
+// Many to Many
 export const experimentsTestCasesTable = pgTable("experiments_test_cases", {
   experiment: integer()
     .references((): AnyPgColumn => experimentsTable.id)
@@ -90,12 +76,33 @@ export const experimentsTestCasesTable = pgTable("experiments_test_cases", {
     .primaryKey(),
 });
 
+export const promptsTable = pgTable("prompts", {
+  id: serial().primaryKey(),
+  modelName: text(),
+  prompt: text(),
+  message: text(),
+});
+
+// Many to Many
+export const experimentsPromptsTable = pgTable("experiments_prompts", {
+  experiment: integer()
+    .references((): AnyPgColumn => experimentsTable.id)
+    .primaryKey(),
+  prompt: integer()
+    .references((): AnyPgColumn => promptsTable.id)
+    .primaryKey(),
+});
+
 export const gradersTable = pgTable("graders", {
   id: serial().primaryKey(),
+  name: text(),
+  modelName: text(),
+  prompt: text(),
 });
 
 export const experimentRunsTable = pgTable("experiment_runs", {
   id: serial().primaryKey(),
-  percentage: integer(), // scores and results for each test case
+  experimentFrom: integer().references((): AnyPgColumn => experimentsTable.id),
+  percentage: integer(),
   aggregateScore: integer(),
 });
