@@ -1,6 +1,5 @@
 "use client";
 
-import { createProject } from "@/app/actions/queries/project";
 import { createPrompt } from "@/app/actions/queries/prompt";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusIcon } from "lucide-react";
-import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";

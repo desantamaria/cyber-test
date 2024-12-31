@@ -19,7 +19,8 @@ export default function PromptsPage({
     const fetchPrompts = async () => {
       try {
         const projectsData = await listPrompts();
-        setPrompts(projectsData);
+        setPrompts(projectsData!);
+        console.log(projectsData);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
