@@ -45,15 +45,17 @@ CREATE TABLE projects (
 );
 
 CREATE TABLE experiments (
-  id SERIAL PRIMARY KEY
-  name VARCHAR(255) NOT NULL
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE test_case (
   id SERIAL PRIMARY KEY,
   userMessage TEXT,
   expectedOutput TEXT,
-  grader INTEGER REFERENCES graders(id)
+  grader INTEGER REFERENCES graders(id),
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE experiments_test_cases (
@@ -66,7 +68,8 @@ CREATE TABLE prompts (
   id SERIAL PRIMARY KEY,
   modelName TEXT,
   prompt TEXT,
-  message TEXT
+  message TEXT,
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE experiments_prompts (
@@ -79,12 +82,14 @@ CREATE TABLE graders (
   id SERIAL PRIMARY KEY,
   name TEXT,
   "modelName" TEXT,
-  prompt TEXT
+  prompt TEXT,
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE experiment_runs (
   id SERIAL PRIMARY KEY,
   experimentFrom INTEGER REFERENCES experiments(id),
   percentage INTEGER,
-  aggregateScore INTEGER
+  aggregateScore INTEGER,
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );

@@ -1,12 +1,11 @@
 "use client";
-
 import { listProjects } from "@/app/actions/queries/project";
-import { DataTable } from "@/components/ui/data-table";
 import { projectsTable } from "@/db/schema";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { columns } from "./_table/columns";
 import CreateProject from "./create-project";
+import { DataTable } from "@/components/data-table";
 
 export default function ProjectsPage({ session }: { session: Session }) {
   const [projects, setProjects] = useState<

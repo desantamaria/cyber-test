@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 import React from "react";
 import { useRouter } from "next/navigation";
 

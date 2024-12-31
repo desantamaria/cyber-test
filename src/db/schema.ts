@@ -57,6 +57,7 @@ export const projectsTable = pgTable("projects", {
 export const experimentsTable = pgTable("experiments", {
   id: serial().primaryKey(),
   name: text(),
+  updated: timestamp().defaultNow().notNull(),
 });
 
 export const testCaseTable = pgTable("test_case", {
@@ -64,6 +65,7 @@ export const testCaseTable = pgTable("test_case", {
   userMessage: text(),
   expectedOutput: text(),
   grader: integer().references((): AnyPgColumn => gradersTable.id),
+  updated: timestamp().defaultNow().notNull(),
 });
 
 // Many to Many
@@ -81,6 +83,7 @@ export const promptsTable = pgTable("prompts", {
   modelName: text(),
   prompt: text(),
   message: text(),
+  updated: timestamp().defaultNow().notNull(),
 });
 
 // Many to Many
@@ -98,6 +101,7 @@ export const gradersTable = pgTable("graders", {
   name: text(),
   modelName: text(),
   prompt: text(),
+  updated: timestamp().defaultNow().notNull(),
 });
 
 export const experimentRunsTable = pgTable("experiment_runs", {
@@ -105,4 +109,5 @@ export const experimentRunsTable = pgTable("experiment_runs", {
   experimentFrom: integer().references((): AnyPgColumn => experimentsTable.id),
   percentage: integer(),
   aggregateScore: integer(),
+  updated: timestamp().defaultNow().notNull(),
 });
