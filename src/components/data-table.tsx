@@ -20,16 +20,12 @@ import { Button } from "./ui/button";
 import React from "react";
 import { useRouter } from "next/navigation";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function hasId(obj: any): obj is { id: string | number } {
-  return obj && typeof obj === "object" && "id" in obj;
-}
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id?: number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id?: number }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -48,7 +44,7 @@ export function DataTable<TData, TValue>({
     },
   });
   const handleRowClick = (rowData: TData) => {
-    if (hasId(rowData)) {
+    if (rowData && rowData.id) {
       router.push(`./p/${rowData.id}`);
     }
   };

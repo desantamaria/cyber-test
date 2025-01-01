@@ -22,7 +22,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
       }
     };
     fetchProjects();
-  }, []);
+  }, [session.user?.id]);
 
   return (
     <div className="w-full h-full px-10 py-10 flex flex-col gap-3">
