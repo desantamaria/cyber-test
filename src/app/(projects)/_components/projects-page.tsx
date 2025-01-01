@@ -3,7 +3,7 @@ import { listProjects } from "@/app/actions/queries/project";
 import { projectsTable } from "@/db/schema";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { columns } from "./_table/columns";
+import { projectColumns } from "./_table/columns";
 import CreateProject from "./create-project";
 import { DataTable } from "@/components/data-table";
 
@@ -32,7 +32,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
         </h3>
         <CreateProject session={session} />
       </div>
-      <DataTable columns={columns} data={projects} />
+      <DataTable columns={projectColumns} data={projects} />
     </div>
   );
 }

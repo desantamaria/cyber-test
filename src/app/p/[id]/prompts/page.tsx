@@ -4,6 +4,8 @@ import { listPrompts } from "@/app/actions/queries/prompt";
 import { promptsTable } from "@/db/schema";
 import { use, useEffect, useState } from "react";
 import CreatePrompt from "./create-prompt";
+import { promptColumns } from "./columns";
+import { DataTable } from "@/components/data-table";
 
 export default function PromptsPage({
   params,
@@ -15,16 +17,18 @@ export default function PromptsPage({
     (typeof promptsTable.$inferSelect)[] | []
   >([]);
 
+  const fetchPrompts = async () => {
+    try {
+      const projectsData = await listPrompts();
+      setPrompts(projectsData!);
+      console.log(id);
+      console.log(projectsData);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchPrompts = async () => {
-      try {
-        const projectsData = await listPrompts();
-        setPrompts(projectsData!);
-        console.log(projectsData);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
     fetchPrompts();
   }, []);
 
@@ -34,9 +38,9 @@ export default function PromptsPage({
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Prompts
         </h3>
-        <CreatePrompt />
+        <CreatePrompt fetchPrompts={fetchPrompts} />
       </div>
-      {/* <DataTable columns={columns} data={projects} /> */}
+      <DataTable columns={promptColumns} data={prompts} />
     </div>
   );
 }

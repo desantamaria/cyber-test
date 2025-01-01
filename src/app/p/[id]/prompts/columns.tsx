@@ -9,34 +9,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { projectsTable } from "@/db/schema";
+import { promptsTable } from "@/db/schema";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { UserName } from "./user-name";
+import { MoreHorizontal } from "lucide-react";
 
-export const projectColumns: ColumnDef<typeof projectsTable.$inferSelect>[] = [
+export const promptColumns: ColumnDef<typeof promptsTable.$inferSelect>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "modelName",
+    header: "Model Name",
+  },
+  {
+    accessorKey: "prompt",
+    header: "Prompt",
+  },
+  {
+    accessorKey: "message",
+    header: "Message",
   },
   {
     accessorKey: "updated",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Updated
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "creator",
+    header: "Updated",
     cell: ({ row }) => {
-      return <UserName id={row.original.creator!} />;
+      return new Date(row.getValue("updated")).toLocaleString();
     },
   },
   {
