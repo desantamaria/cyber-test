@@ -9,13 +9,11 @@ const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle({ client: sql, schema });
 
 export async function listPrompts() {
-  try {
-    const result = await db.query.promptsTable.findMany();
-    return result;
-  } catch (error) {
-    console.error("Error fetching prompts:", error);
-    throw error; // Rethrow the error for further handling
-  }
+  const result = await db.query.promptsTable.findMany({
+    orderBy: [desc(schema.projectsTable.updated)],
+  });
+
+  return result;
 }
 
 export async function createPrompt(

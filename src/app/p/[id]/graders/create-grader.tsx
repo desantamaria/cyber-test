@@ -1,6 +1,6 @@
 "use client";
 
-import { createPrompt } from "@/app/actions/queries/prompt";
+import { createGrader } from "@/app/actions/queries/grader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,38 +14,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function CreatePrompt({
+export default function CreateGrader({
   fetchPrompts,
 }: {
   fetchPrompts: () => void;
 }) {
   const [modelName, setModelName] = useState("");
   const [prompt, setPrompt] = useState("");
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (modelName === "") {
+    if (name === "" || prompt == "" || modelName == "") {
       return;
     }
     try {
-      await createPrompt({
+      await createGrader({
         modelName: modelName,
         updated: new Date(),
         prompt: prompt,
-        message: message,
+        name: name,
       });
-      toast.success("Prompt created");
+      toast.success("Grader created");
       fetchPrompts();
       setOpen(false);
     } catch (error) {
-      toast.error("Failed to create prompt", {
+      toast.error("Failed to create grader", {
         description:
           error instanceof Error ? error.message : "An unknown error occurred",
       });
@@ -56,15 +54,22 @@ export default function CreatePrompt({
       <DialogTrigger asChild>
         <Button size="sm">
           <PlusIcon />
-          Prompt
+          Grader
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Prompt</DialogTitle>
+          <DialogTitle>Create Grader</DialogTitle>
         </DialogHeader>
         <form className="contents" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
+            <Label htmlFor="name">Grader Name</Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <Label htmlFor="modelName">LLM Model Name</Label>
             <Input
               id="modelName"
@@ -79,16 +84,9 @@ export default function CreatePrompt({
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
             />
-
-            <Label htmlFor="message">User Message</Label>
-            <Textarea
-              id="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
           </div>
           <DialogFooter>
-            <Button type="submit">Create Prompt</Button>
+            <Button type="submit">Create Grader</Button>
           </DialogFooter>
         </form>
       </DialogContent>

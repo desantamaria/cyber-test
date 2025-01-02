@@ -1,11 +1,11 @@
 "use client";
 import { listProjects } from "@/app/actions/queries/project";
+import { ProjectDataTable } from "@/components/data-table-projects";
 import { projectsTable } from "@/db/schema";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { projectColumns } from "./_table/columns";
 import CreateProject from "./create-project";
-import { DataTable } from "@/components/data-table";
 
 export default function ProjectsPage({ session }: { session: Session }) {
   const [projects, setProjects] = useState<
@@ -32,7 +32,7 @@ export default function ProjectsPage({ session }: { session: Session }) {
         </h3>
         <CreateProject session={session} />
       </div>
-      <DataTable columns={projectColumns} data={projects} />
+      <ProjectDataTable columns={projectColumns} data={projects} />
     </div>
   );
 }

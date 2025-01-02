@@ -20,12 +20,12 @@ import { Button } from "./ui/button";
 import React from "react";
 import { useRouter } from "next/navigation";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id?: number }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function ProjectDataTable<TData extends { id?: number }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -43,6 +43,11 @@ export function DataTable<TData, TValue>({
       sorting,
     },
   });
+  const handleRowClick = (rowData: TData) => {
+    if (rowData && rowData.id) {
+      router.push(`./p/${rowData.id}`);
+    }
+  };
 
   return (
     <div>
@@ -72,6 +77,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => handleRowClick(row.original)}
                   className="hover:cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => (
