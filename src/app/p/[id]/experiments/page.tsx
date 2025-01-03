@@ -6,12 +6,14 @@ import { use, useEffect, useState } from "react";
 import CreateExperiment from "./create-experiment";
 import { ExperimentColumns } from "./columns";
 import { DataTable } from "@/components/data-table";
+import { useRouter } from "next/navigation";
 
 export default function ExperimentsPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const router = useRouter();
   const { id } = use(params);
   const [experiments, setExperiments] = useState<
     (typeof experimentsTable.$inferSelect)[] | []
@@ -31,6 +33,12 @@ export default function ExperimentsPage({
     fetchExperiments();
   }, []);
 
+  const handleRowClick = (rowData: typeof experimentsTable.$inferSelect) => {
+    if (rowData && rowData.id) {
+      router.push(`/p/${id}/experiments/${rowData.id}`);
+    }
+  };
+
   return (
     <div className="w-full h-full px-10 py-10 flex flex-col gap-3">
       <div className="flex justify-between">
@@ -39,7 +47,11 @@ export default function ExperimentsPage({
         </h3>
         <CreateExperiment fetchExperiments={fetchExperiments} />
       </div>
-      <DataTable columns={ExperimentColumns} data={experiments} />
+      <DataTable
+        columns={ExperimentColumns}
+        data={experiments}
+        onRowClick={handleRowClick}
+      />
     </div>
   );
 }
