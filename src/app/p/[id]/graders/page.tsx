@@ -35,7 +35,7 @@ export default function GradersPage({
     <div className="w-full h-full px-10 py-10 flex flex-col gap-3">
       <div className="flex justify-between">
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          Prompts
+          Graders
         </h3>
         <CreateGrader fetchPrompts={fetchGraders} />
       </div>
