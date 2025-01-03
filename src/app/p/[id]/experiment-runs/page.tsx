@@ -21,7 +21,6 @@ export default function ExperimentsPage({
   const fetchExperimentRuns = async () => {
     try {
       const experimentRunsData = await listExperimentRuns();
-      console.log(experimentRunsData);
       setExperimentRuns(experimentRunsData);
     } catch (error) {
       console.error("Error fetching experiment runs:", error);

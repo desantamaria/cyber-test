@@ -1,7 +1,7 @@
 "use server";
 import * as schema from "@/db/schema";
 import { neon } from "@neondatabase/serverless";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-http";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -22,4 +22,15 @@ export async function createGrader(
     .values(graderInfo)
     .returning();
   return result[0].id;
+}
+
+export async function deleteGrader(graderId: number) {
+  try {
+    await db
+      .delete(schema.gradersTable)
+      .where(eq(schema.gradersTable.id, graderId));
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 }

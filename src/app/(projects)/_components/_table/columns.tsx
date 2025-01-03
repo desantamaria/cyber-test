@@ -42,7 +42,7 @@ export const projectColumns: ColumnDef<typeof projectsTable.$inferSelect>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const rowData = row.original;
 
       return (
         <DropdownMenu>
@@ -55,9 +55,10 @@ export const projectColumns: ColumnDef<typeof projectsTable.$inferSelect>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(payment.id.toString())
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(rowData.id.toString());
+              }}
             >
               Copy project ID
             </DropdownMenuItem>

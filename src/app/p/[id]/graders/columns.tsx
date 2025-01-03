@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteGrader } from "@/app/actions/queries/grader";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -40,7 +41,7 @@ export const graderColumns: ColumnDef<typeof gradersTable.$inferSelect>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const rowData = row.original;
 
       return (
         <DropdownMenu>
@@ -53,14 +54,19 @@ export const graderColumns: ColumnDef<typeof gradersTable.$inferSelect>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(payment.id.toString())
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(rowData.id.toString());
+              }}
             >
-              Copy project ID
+              Copy Grader ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View project</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => console.log(deleteGrader(rowData.id))}
+            >
+              Delete Grader
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

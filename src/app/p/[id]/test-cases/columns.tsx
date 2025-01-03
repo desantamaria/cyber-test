@@ -41,7 +41,7 @@ export const TestCasesColumns: ColumnDef<typeof testCaseTable.$inferSelect>[] =
     {
       id: "actions",
       cell: ({ row }) => {
-        const payment = row.original;
+        const rowData = row.original;
 
         return (
           <DropdownMenu>
@@ -54,14 +54,15 @@ export const TestCasesColumns: ColumnDef<typeof testCaseTable.$inferSelect>[] =
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(payment.id.toString())
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigator.clipboard.writeText(rowData.id.toString());
+                }}
               >
-                Copy project ID
+                Copy Test Case ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View project</DropdownMenuItem>
+              <DropdownMenuItem>View Test Case</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );

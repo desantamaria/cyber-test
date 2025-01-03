@@ -43,7 +43,6 @@ export default function CreateTestCase({
     const fetchGraders = async () => {
       try {
         const gradersData = await listGraders();
-        console.log(gradersData);
         setGraders(gradersData);
       } catch (error) {
         console.error("Error fetching projects:", error);

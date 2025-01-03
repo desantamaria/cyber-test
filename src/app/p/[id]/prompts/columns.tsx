@@ -1,5 +1,6 @@
 "use client";
 
+import { deletePrompt } from "@/app/actions/queries/prompt";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -40,11 +41,11 @@ export const promptColumns: ColumnDef<typeof promptsTable.$inferSelect>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const rowData = row.original;
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
@@ -53,14 +54,17 @@ export const promptColumns: ColumnDef<typeof promptsTable.$inferSelect>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(payment.id.toString())
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(rowData.id.toString());
+              }}
             >
-              Copy project ID
+              Copy Prompt ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View project</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => deletePrompt(rowData.id)}>
+              Delete Prompt
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
