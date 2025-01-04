@@ -40,10 +40,6 @@ export function PromptColumn({ id, label }: PromptColumnProps) {
           <Label>System</Label>
           <Textarea placeholder="Enter Prompt here" className="min-h-[100px]" />
         </div>
-        <div className="space-y-2">
-          <Label>User</Label>
-          <Textarea placeholder="{{input}}" className="min-h-[100px]" />
-        </div>
       </CardContent>
     </Card>
   );
