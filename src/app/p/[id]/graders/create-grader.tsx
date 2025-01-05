@@ -12,7 +12,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { GEMINI_MODELS } from "@/models/gemini";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -70,13 +78,24 @@ export default function CreateGrader({
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <Label htmlFor="modelName">LLM Model Name</Label>
-            <Input
-              id="modelName"
-              type="text"
-              value={modelName}
-              onChange={(e) => setModelName(e.target.value)}
-            />
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="grader">Select Evaluation Model</Label>
+              <Select onValueChange={(value) => setModelName(value)}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select model" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gemini" disabled className="font-semibold">
+                    GEMINI
+                  </SelectItem>
+                  {GEMINI_MODELS.map((model) => (
+                    <SelectItem key={model.value} value={model.value}>
+                      {model.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             <Label htmlFor="prompt">Prompt</Label>
             <Textarea

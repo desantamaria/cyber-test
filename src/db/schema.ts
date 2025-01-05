@@ -62,9 +62,9 @@ export const experimentsTable = pgTable("experiments", {
 
 export const testCaseTable = pgTable("test_case", {
   id: serial().primaryKey(),
+  name: text(),
   userMessage: text(),
   expectedOutput: text(),
-  grader: integer().references((): AnyPgColumn => gradersTable.id),
   updated: timestamp().defaultNow().notNull(),
 });
 

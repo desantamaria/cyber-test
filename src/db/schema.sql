@@ -70,9 +70,9 @@ CREATE TABLE IF NOT EXISTS prompts (
 
 CREATE TABLE IF NOT EXISTS test_case (
   id SERIAL PRIMARY KEY,
+  name TEXT,
   "userMessage" TEXT,
   "expectedOutput" TEXT,
-  grader INTEGER REFERENCES graders(id),
   updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -28,10 +28,6 @@ export const TestCasesColumns: ColumnDef<typeof testCaseTable.$inferSelect>[] =
       header: "Expected Output",
     },
     {
-      accessorKey: "grader",
-      header: "Grader ID",
-    },
-    {
       accessorKey: "updated",
       header: "Updated",
       cell: ({ row }) => {

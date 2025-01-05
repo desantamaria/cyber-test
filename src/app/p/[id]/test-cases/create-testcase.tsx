@@ -1,6 +1,5 @@
 "use client";
 
-import { listGraders } from "@/app/actions/queries/grader";
 import { createTestCase } from "@/app/actions/queries/test-case";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,19 +10,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { gradersTable } from "@/db/schema";
 import { PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export default function CreateTestCase({
   fetchTestCases,
@@ -32,37 +24,18 @@ export default function CreateTestCase({
 }) {
   const [userMessage, setUserMessage] = useState("");
   const [expectedOutput, setExpectedOutput] = useState("");
-  const [selectedGrader, setSelectedGrader] = useState("");
-  const [graders, setGraders] = useState<
-    (typeof gradersTable.$inferSelect)[] | []
-  >([]);
+  const [name, setName] = useState("");
 
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchGraders = async () => {
-      try {
-        const gradersData = await listGraders();
-        setGraders(gradersData);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-    fetchGraders();
-  }, []);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (selectedGrader === "") {
-      toast.error("Please select a grader");
-      return;
-    }
     try {
       await createTestCase({
         expectedOutput: expectedOutput,
         updated: new Date(),
-        grader: parseInt(selectedGrader),
         userMessage: userMessage,
+        name: name,
       });
       toast.success("Test Case created");
       fetchTestCases();
@@ -89,24 +62,13 @@ export default function CreateTestCase({
         </DialogHeader>
         <form className="contents" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="grader">Select Grader</Label>
-              <Select
-                value={selectedGrader}
-                onValueChange={(value) => setSelectedGrader(value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a grader" />
-                </SelectTrigger>
-                <SelectContent>
-                  {graders.map((grader) => (
-                    <SelectItem key={grader.id} value={grader.id.toString()}>
-                      {grader.name || `Grader ${grader.id}`}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Label htmlFor="name">Grader Name</Label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="userMessage">User Message</Label>
