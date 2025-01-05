@@ -42,18 +42,25 @@ export default function ExperimentPage({
   const [selectedGrader, setSelectedGrader] = useState("");
 
   async function handleExperimentRun() {
+    const selectedTestCaseData = testCases.find(
+      (testCase) => testCase.id.toString() === selectedTestCase
+    );
+    const selectedGraderData = graders.find(
+      (grader) => grader.id.toString() === selectedGrader
+    );
     // Use the selected values here
     console.log("Selected Model:", selectedModel);
     console.log("Prompt:", prompt);
-    console.log("Selected Test Case:", selectedTestCase);
-    console.log("Selected Grader:", selectedGrader);
-
+    console.log("Selected Test Case:", selectedTestCaseData);
+    console.log("Selected Grader:", selectedGraderData);
     // You can now use these values to generate the response
     const result = await generateResponse(
       selectedModel,
       prompt,
-      selectedTestCase,
-      selectedGrader
+      selectedTestCaseData?.userMessage || "",
+      selectedTestCaseData?.expectedOutput || "",
+      selectedGraderData?.prompt || "",
+      selectedGraderData?.modelName || ""
     );
     console.log(result);
     setResult(result.result);
@@ -135,7 +142,10 @@ export default function ExperimentPage({
                 </SelectTrigger>
                 <SelectContent>
                   {testCases.map((testCase) => (
-                    <SelectItem key={testCase.id} value={testCase.name || ""}>
+                    <SelectItem
+                      key={testCase.id}
+                      value={testCase.id.toString() || ""}
+                    >
                       {testCase.name}
                     </SelectItem>
                   ))}
@@ -161,7 +171,10 @@ export default function ExperimentPage({
                 </SelectTrigger>
                 <SelectContent>
                   {graders.map((grader) => (
-                    <SelectItem key={grader.id} value={grader.name || ""}>
+                    <SelectItem
+                      key={grader.id}
+                      value={grader.id.toString() || ""}
+                    >
                       {grader.name}
                     </SelectItem>
                   ))}

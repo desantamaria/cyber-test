@@ -10,11 +10,11 @@ const client = new Groq({
   apiKey: process.env["GROQ_API_KEY"],
 });
 
-export async function PerformGroq(messages: Message[]) {
+export async function PerformGroq(model: string, messages: Message[]) {
   console.log(`Generating response from Groq Client`);
   const chatCompletion = await client.chat.completions.create({
     messages: messages,
-    model: "llama3-8b-8192",
+    model: model,
   });
 
   console.log(`Successful response from Groq Client`);

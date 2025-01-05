@@ -3,10 +3,12 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export async function generateResponse(
-  promptModel: string,
-  promptMessage: string,
-  testCase: string,
-  grader: string
+  systemModel: string,
+  systemPrompt: string,
+  input: string,
+  expected: string,
+  evalPrompt: string,
+  evalModel: string
 ) {
   try {
     const response = await fetch(`${API_URL}/api/generateResponse`, {
@@ -15,10 +17,12 @@ export async function generateResponse(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        promptModel: promptModel,
-        promptMessage: promptMessage,
-        testCase: testCase,
-        grader: grader,
+        systemModel: systemModel,
+        systemPrompt: systemPrompt,
+        input: input,
+        expected: expected,
+        evalPrompt: evalPrompt,
+        evalModel: evalModel,
       }),
     });
 
