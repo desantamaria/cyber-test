@@ -1,9 +1,22 @@
 "use client";
 
-import { use, useState } from "react";
-import { PromptColumn } from "./prompt-column";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
+import { GEMINI_MODELS } from "@/models/gemini";
+import { GROQ_MODELS } from "@/models/groq";
+
 import { generateResponse } from "@/app/actions/generateResponse";
+import { use, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function ExperimentPage({
   params,
@@ -22,70 +35,55 @@ export default function ExperimentPage({
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex gap-4">
-        <PromptColumn id="A" label="A" />
-        <PromptColumn id="B" label="B" />
-      </div>
-      <div className="flex justify-end py-2">
-        <Button className="w-[50px]" onClick={handleExperimentRun}>
-          Run
-        </Button>
+        <Card className="flex-1">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-base font-medium">Prompt</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Select>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Select model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="groq" disabled className="font-semibold">
+                      GROQ
+                    </SelectItem>
+                    {GROQ_MODELS.map((model) => (
+                      <SelectItem key={model.value} value={model.value}>
+                        {model.label}
+                      </SelectItem>
+                    ))}
+                    <SelectItem
+                      value="gemini"
+                      disabled
+                      className="font-semibold"
+                    >
+                      GEMINI
+                    </SelectItem>
+                    {GEMINI_MODELS.map((model) => (
+                      <SelectItem key={model.value} value={model.value}>
+                        {model.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>System</Label>
+              <Textarea
+                placeholder="Enter Prompt here"
+                className="min-h-[100px]"
+              />
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={handleExperimentRun}>Run Test Cases</Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 }
-
-const testCases = [
-  {
-    id: 1,
-    input: "(72-49)*(15-5*3)+\n(62-36)*(2*4-8)+sin(0)+log(1)",
-    expected: "0",
-    outputs: [
-      {
-        promptId: "A",
-        content:
-          "To solve the given expression, we need to follow the order of operations (PEMDAS)...",
-        duration: "0.71s",
-        score: "0.00%",
-      },
-      {
-        promptId: "B",
-        content:
-          "Let's break down the expression and calculate each part step by step...",
-        duration: "1.28s",
-        score: "0.00%",
-      },
-      {
-        promptId: "C",
-        content:
-          "The expression given is:\n((72 - 49) * (15 - 5 * 3)) + ((62 - 36) * (2 * 4 - 8)) + sin(0) + log(1)",
-        duration: "1.10s",
-        score: "0.00%",
-      },
-    ],
-  },
-  {
-    id: 2,
-    input: "1+1",
-    expected: "2",
-    outputs: [
-      {
-        promptId: "A",
-        content: "2",
-        duration: "0.89s",
-        score: "0.00%",
-      },
-      {
-        promptId: "B",
-        content: "2",
-        duration: "1.10s",
-        score: "0.00%",
-      },
-      {
-        promptId: "C",
-        content: "2",
-        duration: "0.95s",
-        score: "0.00%",
-      },
-    ],
-  },
-];

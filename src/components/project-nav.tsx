@@ -18,9 +18,9 @@ export default function ProjectNav({ id }: { id: string }) {
     { href: `/p/${id}`, label: "Home", icon: Home },
     { href: `/p/${id}/experiments`, label: "Experiments" },
     { href: `/p/${id}/test-cases`, label: "Test Cases" },
-    { href: `/p/${id}/prompts`, label: "Prompts" },
+    // { href: `/p/${id}/prompts`, label: "Prompts" },
     { href: `/p/${id}/graders`, label: "Graders" },
-    { href: `/p/${id}/experiment-runs`, label: "Experiment Runs" },
+    // { href: `/p/${id}/experiment-runs`, label: "Experiment Runs" },
   ];
 
   return (
