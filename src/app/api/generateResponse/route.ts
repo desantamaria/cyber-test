@@ -1,24 +1,33 @@
+import { Message, PerformGroq } from "@/app/utils/chat";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const { promptModel, promptMessage, testCase, grader } =
+      await request.json();
 
-    // Chat completion with Mixtral
-    // const chatResponse = await client.chatCompletion({
-    //   model: "mixtral-8x7b-32768",
-    //   messages: [
-    //     { role: "system", content: "You are a helpful assistant." },
-    //     { role: "user", content: "What is the capital of France?" },
-    //   ],
-    //   temperature: 0.7,
-    // });
+    console.log(promptModel);
+    console.log(promptMessage);
+    console.log(testCase);
+    console.log(grader);
 
-    // const result = chatResponse.message.content;
+    // Prepare for GROQ
+    const messages: Message[] = [
+      {
+        role: "system",
+        content: promptMessage,
+      },
+      {
+        role: "user",
+        content: `${promptMessage}`,
+      },
+    ];
+    const groqResult = await PerformGroq(messages);
+    // const evalResult = await PerformGemini(`${groqResult}`);
 
     return NextResponse.json({
       success: true,
-      result: "result",
+      result: groqResult,
     });
   } catch (error) {
     console.error(`Failed to process request: ${error}`);

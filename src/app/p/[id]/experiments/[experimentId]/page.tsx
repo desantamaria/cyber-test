@@ -13,7 +13,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-// import { GEMINI_MODELS } from "@/models/gemini";
 import { GROQ_MODELS } from "@/models/groq";
 
 import { generateResponse } from "@/app/actions/generateResponse";
@@ -50,9 +49,14 @@ export default function ExperimentPage({
     console.log("Selected Grader:", selectedGrader);
 
     // You can now use these values to generate the response
-    const result = await generateResponse(prompt); // Modify this to use all selected values
+    const result = await generateResponse(
+      selectedModel,
+      prompt,
+      selectedTestCase,
+      selectedGrader
+    );
     console.log(result);
-    setResult(result);
+    setResult(result.result);
   }
 
   const fetchTestCases = async () => {
@@ -101,18 +105,6 @@ export default function ExperimentPage({
                         {model.label}
                       </SelectItem>
                     ))}
-                    {/* <SelectItem
-                      value="gemini"
-                      disabled
-                      className="font-semibold"
-                    >
-                      GEMINI
-                    </SelectItem>
-                    {GEMINI_MODELS.map((model) => (
-                      <SelectItem key={model.value} value={model.value}>
-                        {model.label}
-                      </SelectItem>
-                    ))} */}
                   </SelectContent>
                 </Select>
               </div>
@@ -185,6 +177,12 @@ export default function ExperimentPage({
       <div className="flex justify-end">
         <Button onClick={handleExperimentRun}>Run Test Case</Button>
       </div>
+      {result && (
+        <div className="flex flex-col gap-2">
+          <h3 className="text-base font-semibold">Test Results</h3>
+          <p>{result}</p>
+        </div>
+      )}
     </div>
   );
 }
